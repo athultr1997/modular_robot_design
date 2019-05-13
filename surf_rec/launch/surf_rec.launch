@@ -1,0 +1,14 @@
+<launch>
+	<!--Launch file for starting the nodes point_cloud_generator, point_cloud_visualizer-->
+	<node name="point_cloud_generator" pkg="surf_rec" type="point_cloud_generator" />
+	<node name="point_cloud_visualizer" pkg="surf_rec" type="point_cloud_visualizer" />
+
+	<!--Node for visualizing pcl files-->
+	<node name="rviz" pkg="rviz" type="rviz" args="-d /home/athul/catkin_ws/src/surf_rec/rviz_configurations/point_cloud_view2.rviz" />
+	
+	<!--Nodes for visualizing stl files-->
+	<!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+	<node name="stl_visualizer" pkg="rviz" type="rviz" args="-d /home/athultr/catkin_ws/src/surf_rec/stl_file.xml" /> -->
+
+</launch>

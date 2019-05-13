@@ -1,0 +1,31 @@
+<launch>
+
+  <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="true"/>
+  <arg name="model" default="$(find surf_rec)/urdf/kinect_robot_1_1.urdf"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find surf_rec)/worlds/many_simple_objects.world" />
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+  </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="urdf_spawner_1" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -y 3.5 -z 0.5 -model robot -param robot_description" respawn="false" output="screen" />
+  <!-- -x -6.0 -y 1.0 for workspace_2  -->
+  <!-- -x 0.0 -z 0.5 -Y 1.57 for workspace_3  -->
+
+  <!-- <node name="urdf_spawner_2" pkg="gazebo_ros" type="spawn_model"
+        args="-sdf -model workspace -file $(find surf_rec)/sdf/workspace_3/model.sdf" respawn="false" output="screen" />  -->    
+<!-- -unpause  -->
+</launch>

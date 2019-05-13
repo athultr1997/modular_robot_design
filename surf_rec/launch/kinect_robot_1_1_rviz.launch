@@ -1,0 +1,17 @@
+<launch>
+  <arg name="model" default="$(find surf_rec)/urdf/kinect_robot_1_1.urdf"/>
+  <arg name="rvizconfig" default="$(find surf_rec)/rviz/kinect_robot_1_1.rviz" />  
+  
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)" />
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen">
+    <param name="use_gui" value="TRUE"/>
+  </node>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher" respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="100.0" />
+  </node>
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" output="screen" />
+
+</launch>

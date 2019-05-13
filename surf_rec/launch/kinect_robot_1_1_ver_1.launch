@@ -1,0 +1,27 @@
+<launch>
+
+  <arg name="model" default="$(find surf_rec)/urdf/kinect_robot_1_1.urdf"/>
+  <arg name="gui" default="true" />
+  <arg name="rvizconfig" default="$(find surf_rec)/rviz/urdf.rviz" />
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+  <rosparam file="$(find surf_rec)/config/kinect_robot_1_1.yaml" command="load" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/kinect_robot_1_1" args="joint_state_controller joint_0_position_controller"/>
+
+  <include file="$(find surf_rec)/launch/gazebo.launch">
+    <arg name="model" value="$(arg model)" />
+  </include>
+
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" output="screen" />
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher" respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="100.0" />
+    <remap from="/joint_states" to="/kinect_robot_1_1/joint_states" />
+  </node>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" output="screen" />
+
+  <!-- <node name="point_cloud_frame_change" pkg="surf_rec" type="point_cloud_frame_change" output="screen" />  -->
+
+</launch>

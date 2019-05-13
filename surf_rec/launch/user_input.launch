@@ -1,0 +1,8 @@
+<launch>
+  <arg name = "rvizconfig" default = "$(find surf_rec)/rviz/user_input.rviz" />  
+  
+  <node pkg = "surf_rec" type = "rviz_user_input" name = "rviz_user_input" respawn = "false" output = "screen" />
+  <node pkg = "surf_rec" type = "rec_surf_generator" name = "rec_surf_generator" respawn = "false" output = "screen" args="20_2_mesh_binary.stl"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" output="screen" />
+
+</launch>

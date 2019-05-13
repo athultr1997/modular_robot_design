@@ -1,0 +1,9 @@
+kinect_robot_1_1:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  joint_0_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: joint_0
+    pid: {p: 100.0,i: 0.01,d: 10.0}

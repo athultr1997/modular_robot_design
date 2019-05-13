@@ -1,0 +1,12 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find kinect_robot_gazebo)/worlds/kinect_world.world"/>
+    <arg name="verbose" value="true" />
+    <arg name="paused" value="true" />
+    <!-- more default parameters can be changed here -->
+  </include>
+  <node name="spawn_urdf2" pkg="gazebo_ros" type="spawn_model" args="-file $(find kinect_robot_gazebo)/models/workspace1/model.sdf -sdf -z 0.51 -Y 1.57 -model workspace1" />
+  <!-- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find kinect_robot_gazebo)/models/kinect_robot/model.sdf -sdf -z 1 -x 7 -Y 3.14 -model kinect_robot" /> -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find kinect_robot_gazebo)/models/kinect_robot_1_1/model.sdf -sdf -z 1 -x 3 -Y 3.14 -model kinect_robot" />
+  <!-- <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-file $(find kinect_robot_gazebo)/models/mesh_test/model.sdf -sdf -z 1 -model mesh_test" /> -->
+</launch>

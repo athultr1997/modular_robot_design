@@ -1,0 +1,13 @@
+<launch>
+
+  <rosparam file="$(find surf_rec)/config/kinect_robot_1_1.yaml" command="load" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/kinect_robot_1_1" args="joint_state_controller joint_0_position_controller"/>
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher"  name="robot_state_publisher" respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="100.0" />
+    <remap from="/joint_states" to="/kinect_robot_1_1/joint_states" />
+  </node>
+
+</launch>

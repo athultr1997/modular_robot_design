@@ -1,0 +1,144 @@
+<?xml version="1.0" ?>
+<robot name="kinect_robot_1_1">
+  <link name="world"/>
+  <!-- <link name="dummy_link">
+  </link> -->
+  <link name="base_link">
+    <inertial>
+      <mass value="1"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <inertia ixx="0.145833" ixy="0" ixz="0" iyy="0.145833" iyz="0" izz="0.125"/>
+    </inertial>
+    <collision name="base_link_collision">
+      <origin rpy="0  0  0" xyz="0    0   0"/>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+    </collision>
+    <visual name="base_link_visual">
+      <origin rpy="0  0  0" xyz="0    0   0"/>
+      <geometry>
+        <cylinder length="0.2" radius="0.25"/>
+      </geometry>
+    </visual>
+  </link>
+  <!-- <joint name="dummy_joint" type="fixed">
+    <parent link="dummy_link"/>
+    <child link="base_link"/>
+  </joint> -->
+  <joint name="fixed" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+  </joint>
+  <link name="link_1">
+    <inertial>
+      <mass value="1"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <inertia ixx="0.145833" ixy="0" ixz="0" iyy="0.145833" iyz="0" izz="0.125"/>
+    </inertial>
+    <collision name="link_1_collision">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <cylinder length="0.8" radius="0.1"/>
+      </geometry>
+    </collision>
+    <visual name="link_1_visual">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <cylinder length="0.8" radius="0.1"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="kinect_link">
+    <inertial>
+      <mass value="0.1"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+    <collision name="kinect_link_collision">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <box size="0.073 0.276 0.072"/>
+      </geometry>
+    </collision>
+    <visual name="kinect_link_visual">
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <geometry>
+        <mesh filename="package://surf_rec/meshes/kinect.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+  <gazebo reference="kinect_link">
+    <sensor name="camera" type="depth">
+      <update_rate>2</update_rate>
+      <camera name="__default__">
+        <horizontal_fov>1.0472</horizontal_fov>
+        <image>
+          <width>500</width>
+          <height>500</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.1</near>
+          <far>3000</far>
+        </clip>
+      </camera>
+      <plugin name="camera_plugin" filename="libgazebo_ros_openni_kinect.so">
+        <baseline>0.2</baseline>
+        <alwaysOn>1</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>camera_ir</cameraName>
+        <imageTopicName>/camera/depth/image_raw</imageTopicName>
+        <cameraInfoTopicName>/camera/depth/camera_info</cameraInfoTopicName>
+        <depthImageTopicName>/camera/depth/image_raw</depthImageTopicName>
+        <depthImageInfoTopicName>/camera/depth/camera_info</depthImageInfoTopicName>
+        <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
+        <frameName>kinect_link</frameName>
+        <pointCloudCutoff>0.1</pointCloudCutoff>
+        <distortionK1>0</distortionK1>
+        <distortionK2>0</distortionK2>
+        <distortionK3>0</distortionK3>
+        <distortionT1>0</distortionT1>
+        <distortionT2>0</distortionT2>
+        <CxPrime>0</CxPrime>
+        <Cx>0</Cx>
+        <Cy>0</Cy>
+        <focalLength>0</focalLength>
+        <hackBaseline>0</hackBaseline>
+      </plugin>
+    </sensor>
+  </gazebo>
+  <joint name="joint_0" type="continuous">
+    <parent link="base_link"/>
+    <child link="link_1"/>
+    <origin rpy="0  0  0" xyz="0    0    0"/>
+    <axis xyz="0  0  1"/>
+  </joint>
+  <transmission name="transmission_0">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint_0">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor_0">
+      <mechanicalReduction>1</mechanicalReduction>
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </actuator>
+  </transmission>
+  <!-- <gazebo reference="JOINT_0">
+    <plugin name="kinect_rotation_control" filename="package://surf_rec/plugins/libkinect_robot_rotation_plugin.so">
+      <velocity>0.1</velocity>
+    </plugin>
+  </gazebo> -->
+  <joint name="joint_1" type="fixed">
+    <parent link="link_1"/>
+    <child link="kinect_link"/>
+    <origin rpy="0  0  0" xyz="4.40000000e-04   3.11000000e-03   4.60750000e-01"/>
+    <axis xyz="0  0  0"/>
+    <limit effort="0" lower="0" upper="0" velocity="0"/>
+  </joint>
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/kinect_robot_1_1</robotNamespace>
+    </plugin>
+  </gazebo>
+</robot>

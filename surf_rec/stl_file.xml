@@ -1,0 +1,8 @@
+<link name="workspace">
+    <visual>
+      <origin rpy="0.0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="/home/athultr/catkin_ws/src/surf_rec/examples/outputs/bunny_mesh.stl"/>
+      </geometry>
+    </visual>
+  </link>
