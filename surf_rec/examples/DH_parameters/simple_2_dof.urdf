@@ -1,1 +1,11 @@
 <?xml version="1.0" ?>
+<robot name="simple_2_dof">
+  <link name="link_1"/>
+  <link name="link_2"/>
+  <joint name="joint_1" type="continuous">
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <origin rpy="0  0  0" xyz="1.400000  0.000000  0.000000"/>
+    <axis xyz="0  0  1"/>
+  </joint>
+</robot>
