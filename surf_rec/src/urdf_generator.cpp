@@ -344,24 +344,27 @@ void URDF::make_urdf_file()
 		// add_node("link","name=world;",reference_pointer);
 		// reference_pointer = root;
 		//for storing the link length of each link
-		double length;
-		tf::Pose Transformation;
+		// double length;
+		// tf::Pose Transformation;
+
+		//base link
+		add_node("link","name=base_link;",reference_pointer);
 
 		//loop for adding links
 		for(int i=0;i<DoF;i++)
 		{
 			reference_pointer = root;
 
-			if(i==DoF-1)
-			{
-				//the length of the last link is not specified in DH-parameters hence it is taken as 1
-				length = 1.0;
-			}
-			else
-			{
-				//length of the link is determined by the parameter 'a' in DH-parameters
-				length = DH_parameters[i+1][1];	
-			}
+			// if(i==DoF-1)
+			// {
+			// 	//the length of the last link is not specified in DH-parameters hence it is taken as 1
+			// 	length = 1.0;
+			// }
+			// else
+			// {
+			// 	//length of the link is determined by the parameter 'a' in DH-parameters
+			// 	length = DH_parameters[i+1][1];	
+			// }
 			
 
 			//commands for adding a link
@@ -394,29 +397,36 @@ void URDF::make_urdf_file()
 		// add_node("parent","link=world;",reference_pointer);
 		// add_node("child","link=link_1;",reference_pointer->parent);
 
+		//joint for connecting to the base link
+		reference_pointer = root;
+		add_node("joint","name=joint_"+std::to_string(0)+";type=continuous;",reference_pointer);
+		add_node("parent","link=base_link;",reference_pointer);
+		add_node("child","link=link_1;",reference_pointer->parent);
+		add_node("origin","rpy=0  0  0;xyz=0  0  0;",reference_pointer->parent);
+		add_node("axis","xyz=0  0  1;",reference_pointer->parent);
+
 		//loop for adding joints
 		for(int i=0;i<DoF-1;i++)
 		{
 			reference_pointer = root;
-			//defining the tranformation between the two links being joined
-			tf::Pose rot_alpha(tf::Quaternion(tf::Vector3(1,0,0),DH_parameters[i+1][0]),tf::Vector3(0,0,0));
-			tf::Pose trans_a(tf::Quaternion(0,0,0,1),tf::Vector3(DH_parameters[i+1][1],0,0));
-			tf::Pose rot_theta(tf::Quaternion(tf::Vector3(0,0,1),0),tf::Vector3(0,0,0));
-			tf::Pose trans_d(tf::Quaternion(0,0,0,1),tf::Vector3(0,0,DH_parameters[i+1][2]));
+			// //defining the tranformation between the two links being joined
+			// tf::Pose rot_alpha(tf::Quaternion(tf::Vector3(1,0,0),DH_parameters[i+1][0]),tf::Vector3(0,0,0));
+			// tf::Pose trans_a(tf::Quaternion(0,0,0,1),tf::Vector3(DH_parameters[i+1][1],0,0));
+			// tf::Pose rot_theta(tf::Quaternion(tf::Vector3(0,0,1),0),tf::Vector3(0,0,0));
+			// tf::Pose trans_d(tf::Quaternion(0,0,0,1),tf::Vector3(0,0,DH_parameters[i+1][2]));
 			
-			Transformation = rot_alpha * trans_a * rot_theta * trans_d;
-			tf::Point origin_coordinates = Transformation * tf::Vector3(0,0,0); 
+			// Transformation = rot_alpha * trans_a * rot_theta * trans_d;
+			// tf::Point origin_coordinates = Transformation * tf::Vector3(0,0,0); 
 
 			// commands for adding joints
 			add_node("joint","name=joint_"+std::to_string(i+1)+";type=continuous;",reference_pointer);
 			add_node("parent","link=link_"+std::to_string(i+1)+";",reference_pointer);
 			add_node("child","link=link_"+std::to_string(i+2)+";",reference_pointer->parent);
-			add_node("origin","rpy=0  0  0;xyz="+std::to_string(origin_coordinates.getX())+"  "
-				+std::to_string(origin_coordinates.getY())+"  "+std::to_string(origin_coordinates.getZ())
-				+";",reference_pointer->parent);
+			add_node("origin","rpy="+std::to_string(DH_parameters[i+1][0])+"  0  0;"
+				+"xyz="+std::to_string(DH_parameters[i+1][1])+"  0  "
+				+std::to_string(DH_parameters[i+1][2])+";",reference_pointer->parent);
 			add_node("axis","xyz=0  0  1;",reference_pointer->parent);
 		}
-
 		depth_traversal(root);
 	}
 }
