@@ -269,6 +269,7 @@ bool URDF::input(std::string file_name)
 		{
 			pos = tmp.find(delimiter);
 			DH_parameters[i][j] = std::stod(tmp.substr(0,pos));
+			display_DH_parameters();
 			tmp = tmp.erase(0,pos+delimiter.length());
 		}
 		getline(fin,tmp);
@@ -402,7 +403,8 @@ void URDF::make_urdf_file()
 		add_node("joint","name=joint_"+std::to_string(0)+";type=continuous;",reference_pointer);
 		add_node("parent","link=base_link;",reference_pointer);
 		add_node("child","link=link_1;",reference_pointer->parent);
-		add_node("origin","rpy=0  0  0;xyz=0  0  0;",reference_pointer->parent);
+		add_node("origin","rpy=0  0  0;xyz="+std::to_string(DH_parameters[0][1])+"  0  "
+			+std::to_string(DH_parameters[0][2])+";",reference_pointer->parent);
 		add_node("axis","xyz=0  0  1;",reference_pointer->parent);
 
 		//loop for adding joints

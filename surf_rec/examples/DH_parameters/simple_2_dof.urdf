@@ -1,25 +1,32 @@
 <?xml version="1.0" ?>
-<robot name="simple_2_dof">
+<robot name="robot_4_dof">
   <link name="base_link"/>
   <link name="link_1"/>
   <link name="link_2"/>
   <link name="link_3"/>
+  <link name="link_4"/>
   <joint name="joint_0" type="continuous">
     <parent link="base_link"/>
     <child link="link_1"/>
-    <origin rpy="0  0  0" xyz="0  0  0"/>
+    <origin rpy="0.000000  0  0" xyz="0.000000  0  0.000000"/>
     <axis xyz="0  0  1"/>
   </joint>
   <joint name="joint_1" type="continuous">
     <parent link="link_1"/>
     <child link="link_2"/>
-    <origin rpy="0.000000  0  0" xyz="1.400000  0  0.000000"/>
+    <origin rpy="1.570000  0  0" xyz="0.447500  0  0.000000"/>
     <axis xyz="0  0  1"/>
   </joint>
   <joint name="joint_2" type="continuous">
     <parent link="link_2"/>
     <child link="link_3"/>
-    <origin rpy="0.000000  0  0" xyz="0.700000  0  0.000000"/>
+    <origin rpy="0.000000  0  0" xyz="0.330000  0  0.000000"/>
+    <axis xyz="0  0  1"/>
+  </joint>
+  <joint name="joint_3" type="continuous">
+    <parent link="link_3"/>
+    <child link="link_4"/>
+    <origin rpy="0.000000  0  0" xyz="0.232500  0  0.000000"/>
     <axis xyz="0  0  1"/>
   </joint>
 </robot>
