@@ -1,0 +1,21 @@
+<robot name="modular_robot">
+  <link name="link0">
+    <inertial>
+      <mass value="0.1"/>
+      <origin rpy="0  0  0" xyz="0  0  0"/>
+      <inertia ixx="0.14" ixy="0" ixz="0" iyy="0.14" iyz="0" izz="0.14"/>
+    </inertial>
+    <collision name="collision">
+      <origin rpy="0  0  0" xyz="0       0       0.03599"/>
+      <geometry>
+        <box size="0.073000 0.276000 0.072000"/>
+      </geometry>
+    </collision>
+    <visual name="visual">
+      <origin rpy="0  0  0" xyz="0       0       0.03599"/>
+      <geometry>
+        <mesh filename="package://surf_rec/meshes/HML/Medium_module_part.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+  </link>
+</robot>
